@@ -1,58 +1,59 @@
 ---
 id: persona-schema
-name: "Schéma des personas Players"
-version: 1
+name: "Players persona schema"
+version: 2
 scope: "Players/*.md"
 ---
 
-# Schéma des personas — définitions des champs
+# Persona schema — field definitions
 
-Ce fichier définit chaque champ du frontmatter YAML des personas (`Players/*.md`).
-Un orchestrateur doit **toujours filtrer** les champs marqués `[méta]` avant d'injecter le persona dans un prompt LLM.
+This file defines every frontmatter YAML field of the personas (`Players/*.md`).
+All **data values** are in English for machine consistency. Prose (descriptions, notes) may stay in French.
+An orchestrator MUST always filter out fields tagged `[meta]` before injecting a persona into an LLM prompt.
 
-## Champs communs (players et MJ)
+## Common fields (players and GMs)
 
-| Champ | Type | Obligatoire | Définition | Valeurs normées |
+| Field | Type | Required | Definition | Allowed values |
 |---|---|---|---|---|
-| `id` | string | ✅ | Identifiant unique, stable, utilisé par les logs de session. | `player-1` … `player-8`, `gm-male`, `gm-female` |
-| `name` | string | ✅ | Prénom du persona. | libre |
-| `gender` | enum | ✅ | Genre du persona. | `masculin` \| `feminin` \| `autre` |
-| `pronouns` | string | ✅ | Pronoms utilisés dans les échanges. | `"il"`, `"elle"`, `"iel"` |
-| `age` | int | ✅ | Âge du persona (influence le style de jeu). | 18–70 |
-| `role` | enum | ✅ | Rôle à table. | `player` \| `game-master` |
-| `traits` | string[] | ✅ | 2–4 traits de personnalité observables à table. | libre |
-| `testing_goals` | string[] | ✅ | **[méta]** Ce que ce persona doit révéler du scénario. | libre |
-| `notes` | string | ⬜ | **[méta]** Notes de l'auteur sur ce persona. | libre |
+| `id` | string | ✅ | Unique stable identifier, used in session logs. | `player-1` … `player-8`, `gm-male`, `gm-female` |
+| `name` | string | ✅ | Persona first name. | free |
+| `gender` | enum | ✅ | Persona gender. | `male` \| `female` \| `other` |
+| `pronouns` | string | ✅ | Pronouns used in dialogue. | `"he"`, `"she"`, `"they"` |
+| `age` | int | ✅ | Persona age (influences play style). | 18–70 |
+| `role` | enum | ✅ | Table role. | `player` \| `game-master` |
+| `traits` | string[] | ✅ | 2–4 observable table behaviours. | free (prose) |
+| `testing_goals` | string[] | ✅ | **[meta]** What this persona should reveal about the scenario. | free |
+| `notes` | string | ⬜ | **[meta]** Author notes about this persona. | free |
 
-## Champs spécifiques aux players
+## Player-specific fields
 
-| Champ | Type | Obligatoire | Définition | Valeurs normées |
+| Field | Type | Required | Definition | Allowed values |
 |---|---|---|---|---|
-| `play_style` | enum | ✅ | Style de jeu dominant. | `optimizer` (min-max) \| `roleplayer` (drama social) \| `rule-lawyer` (littéraliste des règles) \| `casse-cou` (risque-tout) \| `explorateur` (systématique, cartographie) \| `chaotique` (imprévisible, troll) \| `prudent` (évite le conflit) \| `spectateur` (suit le flux) |
-| `experience` | enum | ✅ | Ancienneté avec les JDR. | `debutant` \| `occasionnel` \| `regulier` \| `veteran` |
-| `energy` | float | ✅ | Niveau d'initiative/loquacité à table (0 = muet, 1 = meneur de discussion). | 0.0–1.0 |
-| `rule_compliance` | enum | ✅ | Tendance à rester sur les rails du scénario. | `low` (teste les sorties de piste) \| `medium` \| `high` (suit les indices) |
-| `quirks` | string[] | ✅ | Manies visibles dans le jeu (à injecter dans le prompt). | libre |
-| `pet_peeves` | string[] | ✅ | Ce qui le sort du jeu (utile pour tester les scènes faibles). | libre |
-| `loves` | string[] | ✅ | Thèmes/mécaniques qu'il poursuit activement. | libre (ex: `intrigue`, `combat`, `exploration`, `mystere`, `drama`, `loot`) |
-| `avoids` | string[] | ✅ | Thèmes/mécaniques qu'il fuit ou subit. | idem `loves` |
-| `breaking_tendencies` | string[] | ✅ | Comportements récurrents qui « cassent » le scénario. | libre |
-| `character_ref` | path | ✅ | Fiche du personnage interprété, chemin relatif au persona. | `../Character/<nom>.md` |
+| `play_style` | enum | ✅ | Dominant play style. | `optimizer` \| `roleplayer` \| `rule-lawyer` \| `daredevil` \| `explorer` \| `chaotic` \| `cautious` \| `spectator` |
+| `experience` | enum | ✅ | TTRPG seniority. | `beginner` \| `casual` \| `regular` \| `veteran` |
+| `energy` | float | ✅ | Initiative/talkativeness at the table (0 = silent, 1 = leads the discussion). | 0.0–1.0 |
+| `rule_compliance` | enum | ✅ | Tendency to stay on scenario rails. | `low` (probes off-rails) \| `medium` \| `high` (follows leads) |
+| `quirks` | string[] | ✅ | Visible in-game mannerisms (inject into prompt). | free |
+| `pet_peeves` | string[] | ✅ | What pulls them out of the game (useful to probe weak scenes). | free |
+| `loves` | string[] | ✅ | Themes/mechanics they actively pursue. | free (e.g. `intrigue`, `combat`, `exploration`, `mystery`, `drama`, `loot`) |
+| `avoids` | string[] | ✅ | Themes/mechanics they avoid or endure. | same as `loves` |
+| `breaking_tendencies` | string[] | ✅ | Recurring behaviours that "break" the scenario. | free |
+| `character_ref` | path | ✅ | Played character sheet, path relative to the persona file. | `../Character/<name>.md` |
 
-## Champs spécifiques au MJ
+## GM-specific fields
 
-| Champ | Type | Obligatoire | Définition | Valeurs normées |
+| Field | Type | Required | Definition | Allowed values |
 |---|---|---|---|---|
-| `narrative_style` | enum | ✅ | Rapport au texte du scénario. | `immersif` (improvise pour servir l'ambiance) \| `fidele` (suit le texte au plus près) \| `sandbox` (laisse les joueurs piloter) \| `railroad` (ramène vers l'intrigue) |
-| `rules_arbitration` | enum | ✅ | Rapport aux règles. | `raw` (applique à la lettre) \| `cinematique` (règle pour le drama) \| `homebrew` (variantes maison) |
-| `pacing` | enum | ✅ | Rythme de la table. | `lent` (descriptions longues) \| `equilibre` \| `rapide` (scènes courtes, action) |
-| `secrets_keeping` | enum | ✅ | Capacité à ne pas divulguer les secrets du scénario. | `low` \| `medium` \| `high` |
-| `prep_style` | enum | ✅ | Type de préparation. | `improvise` \| `prepare-actes` \| `prepare-tout` |
-| `voice` | string | ✅ | Registre de narration (1 phrase). | libre |
+| `narrative_style` | enum | ✅ | Relationship to the scenario text. | `immersive` (improvises to serve mood) \| `faithful` (sticks to the text) \| `sandbox` (lets players steer) \| `railroad` (herds back to the plot) |
+| `rules_arbitration` | enum | ✅ | Relationship to the rules. | `raw` (applies to the letter) \| `cinematic` (rules for drama) \| `homebrew` (house variants) |
+| `pacing` | enum | ✅ | Table rhythm. | `slow` \| `balanced` \| `fast` |
+| `secrets_keeping` | enum | ✅ | Ability to keep scenario secrets. | `low` \| `medium` \| `high` |
+| `prep_style` | enum | ✅ | Preparation style. | `improviser` \| `per-act` \| `full-prep` |
+| `voice` | string | ✅ | Narrative register (one sentence). | free |
 
-## Règles d'usage pour l'orchestrateur
+## Orchestrator usage rules
 
-1. **Injection prompt joueur** : `name, pronouns, age, play_style, experience, energy, rule_compliance, traits, quirks, loves, avoids` + fiche `character_ref`.
-2. **Injection prompt MJ** : champs communs + champs spécifiques MJ.
-3. **Interdits** : jamais `testing_goals`, `notes`, ni `breaking_tendencies` brut — `breaking_tendencies` guide la *génération* du persona par le moteur, pas le prompt.
-4. `energy` sert à pondérer l'ordre/la fréquence de prise de parole dans les tours de jeu.
+1. **Player prompt injection**: `name, pronouns, age, play_style, experience, energy, rule_compliance, traits, quirks, loves, avoids` + the `character_ref` sheet.
+2. **GM prompt injection**: common fields + GM-specific fields.
+3. **Never inject**: `testing_goals`, `notes`, or raw `breaking_tendencies` — `breaking_tendencies` guides the engine's persona *generation*, not the prompt.
+4. Use `energy` to weight turn order / speaking frequency in game rounds.
